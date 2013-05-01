@@ -1,6 +1,7 @@
-package me.mrfrase3.CHGP;
+package me.mrfrase3.chgp;
 
 import com.laytonsmith.abstraction.MCLocation;
+import com.laytonsmith.abstraction.bukkit.BukkitMCLocation;
 import com.laytonsmith.abstraction.MCPlayer;
 import com.laytonsmith.annotations.api;
 import com.laytonsmith.core.CHVersion;
@@ -38,19 +39,23 @@ public class CHGP {
         }
         
         public Construct exec(Target t, Environment environment, Construct... args) throws ConfigRuntimeException {
-			Player player = (Player)args[0];
-            //Player player = Bukkit.getPlayer(args[0].val());
-			CArray array = (CArray)args[1];
+            //Player player = (Player)args[0];
+            Player player = Bukkit.getPlayer(args[0].val());
+            CArray array = (CArray)args[1];
             MCLocation loc = ObjectGenerator.GetGenerator().location(array, null, t);
+            Location location = ((BukkitMCLocation)loc).asLocation();
             
-            Claim claim = GriefPrevention.instance.dataStore.getClaimAt((Location)loc.getHandle(), false, null);
-			String errorMessage = claim.allowBuild(player);
+            Claim claim = GriefPrevention.instance.dataStore.getClaimAt(location, false, null);
+            //if(claim == null){
+            //    return new CBoolean(true, t);
+            //}
+            String errorMessage = claim.allowBuild(player);
             
             if (errorMessage == null){
                 return new CBoolean(true, t);
-			} else {
+            } else {
                 return new CBoolean(false, t);
-			}
+            }
         }
         
         public String getName() {
