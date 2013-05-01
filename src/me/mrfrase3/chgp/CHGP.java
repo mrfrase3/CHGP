@@ -1,3 +1,5 @@
+package me.mrfrase3.CHGP;
+
 import com.laytonsmith.abstraction.MCLocation;
 import com.laytonsmith.abstraction.MCPlayer;
 import com.laytonsmith.annotations.api;
